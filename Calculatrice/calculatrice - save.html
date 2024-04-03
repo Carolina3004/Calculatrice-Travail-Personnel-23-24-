@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculatrice</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="calculator">
+        <form>
+            <div class="display">
+                <input type="text" name="display" id="display">
+            </div>
+            <div>
+                <input type="button" class="buttons" value="(" onclick="parentheseO()">
+                <input type="button" class="buttons" value=")" onclick="parentheseF()">
+                <input type="button" class="buttons" value="DEL" onclick="display.value = display.value.toString().slice(0, -1)">
+                <input type="button" class="buttons" value="AC" onclick="display.value = '' ">
+            </div>
+            <div>
+                <input type="button" class="buttons" value="7" onclick="display.value += '7'">
+                <input type="button" class="buttons" value="8" onclick="display.value += '8' ">
+                <input type="button" class="buttons" value="9" onclick="display.value += '9' ">
+                <input type="button" class="buttons" value="/" onclick="display.value += '/' ">
+            </div>
+            <div>
+                <input type="button" class="buttons" value="4" onclick="display.value += '4' ">
+                <input type="button" class="buttons" value="5" onclick="display.value += '5' ">
+                <input type="button" class="buttons" value="6" onclick="display.value += '6' ">
+                <input type="button" class="buttons" value="*" onclick="display.value += '*' ">
+            </div>
+            <div>
+                <input type="button" class="buttons" value="1" onclick="display.value += '1' ">
+                <input type="button" class="buttons" value="2" onclick="display.value += '2' ">
+                <input type="button" class="buttons" value="3" onclick="display.value += '3' ">
+                <input type="button" class="buttons" value="-" onclick="display.value += '-' ">
+            </div>
+            <div>
+                <input type="button" class="buttons" value="0" onclick="display.value += '0' ">
+                <input type="button" class="buttons" value="." onclick="display.value += '.' ">
+                <input type="button" class="buttons" value="m" onclick="calculateAverage()">
+                <input type="button" class="buttons" value="+" onclick="display.value += '+' ">
+            </div>
+            <div>
+                <button type="button" class="buttons" onclick="display.value += '**' "> x<span>^</span>y</button>
+                <input type="button" class="buttons" value="nCr" onclick="Combinaison()">
+                <input type="button" class="buttons" value="nPr" onclick="Permutation()">
+                <input type="button" class="buttons" value="=" onclick="display.value = eval(display.value)">
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="def">
+    <p> *m = Moyenne </p>
+    <p> *nCr = formule de combinaison </p>
+    <p> *nPr = formule de permutation </p>
+</div>
+
+<div class="Mb">
+    <p> Developed by Carolina Barbosa de Sousa (4C), © 2024</p>
+</div>
+<script>
+    function parentheseO() {
+        document.getElementsByName('display')[0].value += '(';
+    }
+    function parentheseF() {
+        document.getElementsByName('display')[0].value += ')';
+    }
+    function calculateAverage() {
+        var display = document.getElementById('display');
+        var numbers = display.value.split('+');
+        var sum = 0;
+        for (var i = 0; i < numbers.length; i++) {
+            sum += parseFloat(numbers[i]);
+        }
+        var average = sum / numbers.length;
+        display.value = average;
+    }  
+    
+    function factorial() {
+        if (n === 0 || n === 1) {
+            return 1;
+        } else {
+            return n * factorial(n - 1);
+        }
+    }
+    
+    function Combinaison() {
+        var display = document.getElementById('display');
+        var expression = display.value;
+
+        try{
+            var values = expression.split("nCr");
+            var n = parseFloat(values[0]);
+            var r = parseFloat(values[1]);
+
+            var result = factorial(n) / (factorial(r) * factorial(n - r));
+            display.value = result;
+        } catch (error) {
+            display.value = 'Error'; 
+        }
+    }
+
+    function Permutation() {
+
+    }
+
+
+</script>
+
+</body>
+
+</html>
+
