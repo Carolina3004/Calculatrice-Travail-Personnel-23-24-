@@ -47,9 +47,9 @@
             </div>
             <div>
                 <button type="button" class="buttons" onclick="display.value += '**' "> x<span>^</span>y</button>
-                <input type="button" class="buttons" value="nCr" onclick="Combinaison()">
-                <input type="button" class="buttons" value="nPr" onclick="Permutation()">
-                <input type="button" class="buttons" value="=" onclick="display.value = eval(display.value)">
+                <input type="button" class="buttons" value="nCr" onclick="insertNCR()">
+                <input type="button" class="buttons" value="nPr" onclick="insertNPR()">
+                <input type="button" class="buttons" value="=" onclick="calculate()">
             </div>
 
         </form>
@@ -84,7 +84,7 @@
         var average = sum / numbers.length;
         display.value = average;
     }  
-    
+
     function factorial(number) {
         if (number === 0 || number === 1) {
             return 1;
@@ -97,39 +97,51 @@
         }
     }
     
-    function Combinaison() {
+    function calculate(){
         var display = document.getElementById('display');
         var expression = display.value;
-    
-        var nCrIndex = expression.indexOf('nCr');
-    
-        var nStartIndex = nCrIndex + 4; // Début de 'n' après 'nCr('
-        var nEndIndex = expression.indexOf(',', nStartIndex); // Fin de 'n'
-        var n = parseFloat(expression.substring(nStartIndex, nEndIndex)); // 'n'
-    
-        var rStartIndex = nEndIndex + 1; // Début de 'r' après ','
-        var rEndIndex = expression.indexOf(')', rStartIndex); // Fin de 'r'
-        var r = parseFloat(expression.substring(rStartIndex, rEndIndex)); // 'r'
-    
-        
+
+        if (expression.includes('C')) {
+            var values = expression.split('C');
+            var n = parseInt(values[0]);
+            var r = parseInt(values[1]);
+
+            var result = calculateNCr(n, r);
+
+            display.value = result;
+        } else if (expression.includes('P'))  {
+            var values = expression.split('P');
+            var n = parseInt(values[0]);
+            var r = parseInt(values[1]);
+
+            var result = calculateNPr(n, r);
+
+            display.value = result;
+        } else {
+            display.value = eval(expression);
+        }
+    }
+
+    function insertNCR() {
+        var display = document.getElementById('display');
+        display.value += 'C';
+    }
+
+    function calculateNCr(n, r) {
         var result = factorial(n) / (factorial(r) * factorial(n - r));
-        display.value = "nCr(" + n + "," + r + ") = " + result;
+    
+        return result;
     }
     
-    function Permutation() {
+    function insertNPR() {
         var display = document.getElementById('display');
-        var expression = display.value;
+        display.value += 'P';
+    }
+
+    function calculateNPr(n, r) {
+        var result = factorial(n) / factorial(n - r);
     
-        try {
-            var values = expression.split("nPr");
-            var n = parseFloat(values[0]);
-            var r = parseFloat(values[1]);
-    
-            var result = factorial(n) / factorial(n - r);
-            display.value = result;
-        } catch (error) {
-            display.value = 'Error';
-        }
+        return result;
     }
 
 
