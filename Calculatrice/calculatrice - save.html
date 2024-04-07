@@ -60,8 +60,8 @@
 
 <div class="def">
     <p> *m = Moyenne </p>
-    <p> *nCr = formule de combinaison </p>
-    <p> *nPr = formule de permutation </p>
+    <p> *nCr = nombre de combinaisons </p>
+    <p> *nPr = nombre d'arrangements </p>
 </div>
 
 <div class="Mb">
@@ -85,32 +85,51 @@
         display.value = average;
     }  
     
-    function factorial() {
-        if (n === 0 || n === 1) {
+    function factorial(number) {
+        if (number === 0 || number === 1) {
             return 1;
         } else {
-            return n * factorial(n - 1);
+            let result = 1;
+            for (let i =  2; i <= number; i ++){
+                result *= i;
+            }
+            return result;
         }
     }
     
     function Combinaison() {
         var display = document.getElementById('display');
         var expression = display.value;
-
-        try{
-            var values = expression.split("nCr");
+    
+        var nCrIndex = expression.indexOf('nCr');
+    
+        var nStartIndex = nCrIndex + 4; // Début de 'n' après 'nCr('
+        var nEndIndex = expression.indexOf(',', nStartIndex); // Fin de 'n'
+        var n = parseFloat(expression.substring(nStartIndex, nEndIndex)); // 'n'
+    
+        var rStartIndex = nEndIndex + 1; // Début de 'r' après ','
+        var rEndIndex = expression.indexOf(')', rStartIndex); // Fin de 'r'
+        var r = parseFloat(expression.substring(rStartIndex, rEndIndex)); // 'r'
+    
+        
+        var result = factorial(n) / (factorial(r) * factorial(n - r));
+        display.value = "nCr(" + n + "," + r + ") = " + result;
+    }
+    
+    function Permutation() {
+        var display = document.getElementById('display');
+        var expression = display.value;
+    
+        try {
+            var values = expression.split("nPr");
             var n = parseFloat(values[0]);
             var r = parseFloat(values[1]);
-
-            var result = factorial(n) / (factorial(r) * factorial(n - r));
+    
+            var result = factorial(n) / factorial(n - r);
             display.value = result;
         } catch (error) {
-            display.value = 'Error'; 
+            display.value = 'Error';
         }
-    }
-
-    function Permutation() {
-
     }
 
 
