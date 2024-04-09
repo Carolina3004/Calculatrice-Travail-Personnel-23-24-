@@ -6,92 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculatrice</title>
     <link rel="stylesheet" href="style1.css">
-
-<style>
-    *{
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
-        box-sizing: border-box;
-    }
-    
-    body {
-        background-color: #ebebeb;
-    }
-    
-    .container {
-        width: 100%;
-        height: 100vh;
-        background: #ebebeb;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    
-    .calculator {
-        background: #454545;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 7px 10px rgba(0, 0, 0, 8);
-    }
-    .exponant {
-        font-size: 10px;
-        vertical-align: super;
-    }
-    .calculator form input,
-    .calculator form button {
-        border: 0;
-        outline: none;
-        width: 60px;
-        height: 60px;
-        border-radius: 10px;
-        box-shadow:-5px 5px 10px rgba(0, 0, 0, 8), 3px 3px 10px rgba(255, 255, 255, 0.1);
-        background: linear-gradient(#5f5f5f 0%, #404040 100%);
-        font-size: 20px;
-        color: #fff;
-        cursor: pointer;
-        margin: 8px;
-    
-    }
-    .buttons:hover {
-        background: linear-gradient(#bbbeb9 0%, #929292 100%);
-        border-top: 1px solid #d7d7d7;
-        text-shadow: 0 -1px 1px #000; 
-    }
-    .buttons:active {
-        box-shadow: none;
-    }
-    /*.buttons:focus { 
-        outline: none;
-    }*/
-    .def {
-        margin: 10px;
-        font-size: 10px;
-        color: #020202;
-    }
-    .Mb {
-        font-size: 10px;
-        margin: 10px;
-        color: #b6b1b1;
-    
-    }
-    
-    form .display {
-        display: flex;
-        justify-content: flex-end;
-        margin: 5px 0;
-    }
-    form .display input {
-        text-align: right;
-        flex: 1;
-        font-size: 30px;
-        box-shadow: none;
-        padding: 15px;
-        background: linear-gradient(#cdcaca 0%, #918d8d 100%);
-    }
-    
-</style>
 </head>
 <body>
 
@@ -99,16 +13,16 @@
     <div class="calculator">
         <form>
             <div class="display">
-                <input type="text" name="display">
+                <input type="text" name="display" id="display">
             </div>
             <div>
-                <input type="button" class="buttons" value="(" onclick="parenthèseO()">
-                <input type="button" class="buttons" value=")" onclick="parenthèseF()">
+                <input type="button" class="buttons" value="(" onclick="parentheseO()">
+                <input type="button" class="buttons" value=")" onclick="parentheseF()">
                 <input type="button" class="buttons" value="DEL" onclick="display.value = display.value.toString().slice(0, -1)">
                 <input type="button" class="buttons" value="AC" onclick="display.value = '' ">
             </div>
             <div>
-                <input type="button" class="buttons" value="7" onclick="display.value += '7' ">
+                <input type="button" class="buttons" value="7" onclick="display.value += '7'">
                 <input type="button" class="buttons" value="8" onclick="display.value += '8' ">
                 <input type="button" class="buttons" value="9" onclick="display.value += '9' ">
                 <input type="button" class="buttons" value="/" onclick="display.value += '/' ">
@@ -132,10 +46,10 @@
                 <input type="button" class="buttons" value="+" onclick="display.value += '+' ">
             </div>
             <div>
-                <button type="button" class="buttons" onclick="exponant()"> x<span class="exponant">y</span> </button>
-                <input type="button" class="buttons" value="nCr" onclick=" Combinaison()">
-                <input type="button" class="buttons" value="nPr" onclick="Permutation()">
-                <input type="button" class="buttons" value="=" onclick="display.value = eval(display.value)">
+                <button type="button" class="buttons" onclick="display.value += '**' "> x<span>^</span>y</button>
+                <input type="button" class="buttons" value="nCr" onclick="insertNCR()">
+                <input type="button" class="buttons" value="nPr" onclick="insertNPR()">
+                <input type="button" class="buttons" value="=" onclick="calculate()">
             </div>
 
         </form>
@@ -154,10 +68,10 @@
     <p> Developed by Carolina Barbosa de Sousa (4C), © 2024</p>
 </div>
 <script>
-    function parenthèseO() {
+    function parentheseO() {
         document.getElementsByName('display')[0].value += '(';
     }
-    function parenthèseF() {
+    function parentheseF() {
         document.getElementsByName('display')[0].value += ')';
     }
     function calculateAverage() {
@@ -167,9 +81,67 @@
         for (var i = 0; i < numbers.length; i++) {
             sum += parseFloat(numbers[i]);
         }
-        
         var average = sum / numbers.length;
         display.value = average;
+    }  
+
+    function factorial(number) {
+        if (number === 0 || number === 1) {
+            return 1;
+        } else {
+            let result = 1;
+            for (let i =  2; i <= number; i ++){
+                result *= i;
+            }
+            return result;
+        }
+    }
+    
+    function calculate(){
+        var display = document.getElementById('display');
+        var expression = display.value;
+
+        if (expression.includes('C')) {
+            var values = expression.split('C');
+            var n = parseInt(values[0]);
+            var r = parseInt(values[1]);
+
+            var result = calculateNCr(n, r);
+
+            display.value = result;
+        } else if (expression.includes('P'))  {
+            var values = expression.split('P');
+            var n = parseInt(values[0]);
+            var r = parseInt(values[1]);
+
+            var result = calculateNPr(n, r);
+
+            display.value = result;
+        } else {
+            display.value = eval(expression);
+        }
+    }
+
+    function insertNCR() {
+        var display = document.getElementById('display');
+        display.value += 'C';
+    }
+
+    function calculateNCr(n, r) {
+        var result = factorial(n) / (factorial(r) * factorial(n - r));
+    
+        return result;
+    }
+    
+    function insertNPR() {
+        var display = document.getElementById('display');
+        display.value += 'P';
+    }
+
+    function calculateNPr(n, r) {
+        var result = factorial(n) / factorial(n - r);
+    
+        return result;
     }
 
 
