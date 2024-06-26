@@ -1,4 +1,4 @@
-dividende = int(input('Tapez un nombre: ')) #l'utilisateur doit entrer un minuend auquel on va soustraire le subtrahend
+dividende = int(input('Tapez un nombre: ')) #l'utilisateur doit entrer un dividende auquel on va diviser le diviseur
 diviseur = int(input('Tapez un deuxieme nombre: '))
 
 if diviseur == 0: #cette boucle affiche une erreur et demande à l'utilisateur d'entrer un nouveau diviseur si celui-ci était égal à 0
